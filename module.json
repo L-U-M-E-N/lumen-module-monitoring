@@ -1,0 +1,18 @@
+{
+    "name": "monitoring",
+    "fullName": "L.U.M.E.N. monitoring module",
+    "author": "Elanis",
+    "version": "1.0.0",
+    "dependencies": {},
+    "desktop": {
+        "module": true,
+        "window": false
+    },
+    "mobile": {
+        "module": true,
+        "window": false
+    },
+    "config": {
+        "urls": "string[]"
+    }
+}
