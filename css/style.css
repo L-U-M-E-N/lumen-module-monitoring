@@ -1,4 +1,15 @@
 .module-monitoring table {
 	width: 100%;
-	text-align: left;
+}
+
+.module-monitoring table tr td:first-child {
+	padding-right: 2em;
+}
+
+.monitoring-ko {
+	color: #E74C3C;
+}
+
+.monitoring-ok {
+	color: #2ECC71;
 }
