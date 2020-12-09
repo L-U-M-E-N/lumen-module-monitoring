@@ -1,17 +1,9 @@
-const websites = {};
-
-const websiteStatus = {
-
-};
-
-let updateTimeout = -1;
-
 class Monitoring {
 	static init() {
 		if(currentWindow !== 'index') {
 			const DOMElt = document.querySelector('.main-monitoring table tbody');
 
-			for(const website in websites) {
+			for(const website in remote.getGlobal('Monitoring').getWebsitesList()) {
 				const tr = document.createElement('tr');
 
 				const tdName = document.createElement('td');
@@ -31,10 +23,12 @@ class Monitoring {
 			});
 		}
 
-		Monitoring.updateStates();
+		remote.getGlobal('Monitoring').setUpdateDisplay(Monitoring.updateDisplay);
 	}
 
 	static updateDisplay() {
+		const websiteStatus = remote.getGlobal('Monitoring').getWebsitesStatus();
+
 		if(currentWindow === 'index') {
 			const statusCircle = document.getElementById('module-monitoring-cicle-status');
 			const statusMessage = document.getElementById('module-monitoring-statusMessage');
@@ -60,36 +54,6 @@ class Monitoring {
 				}
 			}
 		}
-	}
-
-	static updateStates() {
-		for(const website in websites) {
-			Monitoring.writeStatusAsync(website);
-		}
-
-		Monitoring.launchTimeout();
-	}
-
-	static async writeStatusAsync(website) {
-		websiteStatus[website] = false;
-
-		try {
-			const res = await fetch(websites[website]);
-			if(res.status < 200 || res.status > 299) {
-				websiteStatus[website] = false;
-			} else {
-				websiteStatus[website] = true;
-			}
-		} catch(e) {
-			websiteStatus[website] = false;
-		}
-
-		Monitoring.updateDisplay();
-	}
-
-	static launchTimeout() {
-		clearTimeout(updateTimeout);
-		updateTimeout = setTimeout(Monitoring.updateStates, 5*60*1000);
 	}
 }
 window.addEventListener('load', Monitoring.init);
