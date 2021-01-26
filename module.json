@@ -6,11 +6,11 @@
     "dependencies": {},
     "desktop": {
         "module": true,
-        "window": false
+        "window": true
     },
     "mobile": {
         "module": true,
-        "window": false
+        "window": true
     },
     "config": {
         "urls": "string[]"
