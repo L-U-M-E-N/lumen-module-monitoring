@@ -4,3 +4,10 @@
 .main-monitoring {
 	padding: 1em;
 }
+.module-monitoring-status {
+	display: inline-block;
+	margin-top: -165px;
+	width: 100%;
+	float: right;
+	font-size: 3rem;
+}
