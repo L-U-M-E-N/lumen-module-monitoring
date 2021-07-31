@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const window = require('electron').BrowserWindow;
 
 let updateTimeout = -1;
 
@@ -29,15 +30,9 @@ class Monitoring {
 			websiteStatus[website] = false;
 		}
 
-		if(Monitoring.updateDisplay) {
-			Monitoring.updateDisplay();
+		for(const currWindow of BrowserWindow.getAllWindows()) {
+			currWindow.webContents.send('Monitoring-updateDisplay');
 		}
-	}
-
-	static setUpdateDisplay(callback) {
-		Monitoring.updateDisplay = callback;
-
-		Monitoring.updateStates();
 	}
 
 	static launchTimeout() {
@@ -56,4 +51,5 @@ class Monitoring {
 
 Monitoring.updateStates();
 
-global.Monitoring = Monitoring;
+ipcMain.handle('Monitoring-getWebsitesList', () => Monitoring.getWebsitesList());
+ipcMain.handle('Monitoring-getWebsitesStatus', () => Monitoring.getWebsitesStatus());

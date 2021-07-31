@@ -1,9 +1,9 @@
 class Monitoring {
-	static init() {
+	static async init() {
 		if(currentWindow !== 'index') {
 			const DOMElt = document.querySelector('.main-monitoring table tbody');
 
-			for(const website in remote.getGlobal('Monitoring').getWebsitesList()) {
+			for(const website in await ipcRenderer.invoke('Monitoring-getWebsitesList')) {
 				const tr = document.createElement('tr');
 
 				const tdName = document.createElement('td');
@@ -23,11 +23,12 @@ class Monitoring {
 			});
 		}
 
-		remote.getGlobal('Monitoring').setUpdateDisplay(Monitoring.updateDisplay);
+		ipcRenderer.on('Monitoring-updateDisplay', Monitoring.updateDisplay);
+		Monitoring.updateDisplay();
 	}
 
-	static updateDisplay() {
-		const websiteStatus = remote.getGlobal('Monitoring').getWebsitesStatus();
+	static async updateDisplay() {
+		const websiteStatus = await ipcRenderer.invoke('Monitoring-getWebsitesStatus');
 
 		if(currentWindow === 'index') {
 			const statusCircle = document.getElementById('module-monitoring-cicle-status');
