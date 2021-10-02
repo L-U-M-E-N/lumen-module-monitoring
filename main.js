@@ -1,5 +1,4 @@
 import fetch from 'node-fetch';
-const window = require('electron').BrowserWindow;
 
 let updateTimeout = -1;
 
