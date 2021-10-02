@@ -2,13 +2,14 @@
   "name": "lumen-module-monitoring",
   "version": "1.0.0",
   "description": "lumen-module-monitoring",
-  "main": "main.js",
+  "exports": "./main.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Axel \"Elanis\" Soupé",
   "license": "MIT",
   "dependencies": {
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.5"
   }
 }
