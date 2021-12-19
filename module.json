@@ -13,6 +13,6 @@
         "window": true
     },
     "config": {
-        "urls": "string[]"
+        "urls": "object[]"
     }
 }

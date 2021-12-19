@@ -3,15 +3,15 @@ class Monitoring {
 		if(currentWindow !== 'index') {
 			const DOMElt = document.querySelector('.main-monitoring table tbody');
 
-			for(const website in await ipcRenderer.invoke('Monitoring-getWebsitesList')) {
+			for(const website of await ipcRenderer.invoke('Monitoring-getWebsitesList')) {
 				const tr = document.createElement('tr');
 
 				const tdName = document.createElement('td');
-				tdName.innerText = website;
+				tdName.innerText = website.name;
 				tr.append(tdName);
 
 				const tdStatus = document.createElement('td');
-				tdStatus.id = 'monitoring-' + website;
+				tdStatus.id = 'monitoring-' + website.name;
 				tdStatus.innerText = '?';
 				tr.append(tdStatus);
 

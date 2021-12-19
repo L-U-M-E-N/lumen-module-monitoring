@@ -2,13 +2,11 @@ import fetch from 'node-fetch';
 
 let updateTimeout = -1;
 
-const websites = {};
-
 const websiteStatus = {};
 
 class Monitoring {
 	static updateStates() {
-		for(const website in websites) {
+		for(const website of Monitoring.getWebsitesList()) {
 			Monitoring.writeStatusAsync(website);
 		}
 
@@ -16,17 +14,17 @@ class Monitoring {
 	}
 
 	static async writeStatusAsync(website) {
-		websiteStatus[website] = false;
+		websiteStatus[website.name] = false;
 
 		try {
-			const res = await fetch(websites[website]);
+			const res = await fetch(website.url);
 			if(res.status < 200 || res.status > 299) {
-				websiteStatus[website] = false;
+				websiteStatus[website.name] = false;
 			} else {
-				websiteStatus[website] = true;
+				websiteStatus[website.name] = true;
 			}
 		} catch(e) {
-			websiteStatus[website] = false;
+			websiteStatus[website.name] = false;
 		}
 
 		for(const currWindow of BrowserWindow.getAllWindows()) {
@@ -40,7 +38,7 @@ class Monitoring {
 	}
 
 	static getWebsitesList() {
-		return websites;
+		return ConfigManager.get('monitoring', 'urls');
 	}
 
 	static getWebsitesStatus() {
