@@ -1,5 +1,3 @@
-import fetch from 'node-fetch';
-
 let updateTimeout = -1;
 
 const websiteStatus = {};
