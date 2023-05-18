@@ -3,12 +3,16 @@ let updateTimeout = -1;
 const websiteStatus = {};
 
 class Monitoring {
-	static updateStates() {
+	static async updateStates() {
 		for(const website of Monitoring.getWebsitesList()) {
-			Monitoring.writeStatusAsync(website);
+			await Monitoring.writeStatusAsync(website);
 		}
 
 		Monitoring.launchTimeout();
+
+		for(const currWindow of BrowserWindow.getAllWindows()) {
+			currWindow.webContents.send('Monitoring-updateDisplay');
+		}
 	}
 
 	static async writeStatusAsync(website) {
@@ -23,10 +27,6 @@ class Monitoring {
 			}
 		} catch(e) {
 			websiteStatus[website.name] = false;
-		}
-
-		for(const currWindow of BrowserWindow.getAllWindows()) {
-			currWindow.webContents.send('Monitoring-updateDisplay');
 		}
 	}
 
